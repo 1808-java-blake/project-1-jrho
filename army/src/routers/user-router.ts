@@ -18,44 +18,44 @@ userRouter.get('', async (req: Request, resp: Response) => {
     }
 });
 
-/**
- * Find user by id
- */
-userRouter.get('/:id', async (req, resp) => {
-    const id = +req.params.id; // convert the id to a number
-    console.log(`retrieving user with id  ${id}`);
-    try {
-        let user = await userDao.findById(id);
-        if (user !== undefined) {
-            resp.json(user);
-        } else {
-            resp.sendStatus(400);
-        }
-    } catch (err) {
-        resp.sendStatus(500);
-    }
-});
+// /**
+//  * Find user by id
+//  */
+// userRouter.get('/:id', async (req, resp) => {
+//     const id = +req.params.id; // convert the id to a number
+//     console.log(`retrieving user with id  ${id}`);
+//     try {
+//         let user = await userDao.findById(id);
+//         if (user !== undefined) {
+//             resp.json(user);
+//         } else {
+//             resp.sendStatus(400);
+//         }
+//     } catch (err) {
+//         resp.sendStatus(500);
+//     }
+// });
 
-/**
- * Add a new user
- */
-userRouter.post('', async (req, resp) => {
-    console.log('creating user');
-    try {
-        const id = await userDao.create(req.body);
+// /**
+//  * Add a new user
+//  */
+// userRouter.post('', async (req, resp) => {
+//     console.log('creating user');
+//     try {
+//         const id = await userDao.create(req.body);
 
-        const user = await userDao.findById(id);
-        if (user !== undefined) {
-            resp.status(200);
-            resp.json(user);
-        } else {
-            resp.sendStatus(400);
-        }
-    } catch (err) {
-        console.log(err);
-        resp.sendStatus(500);
-    }
-});
+//         const user = await userDao.findById(id);
+//         if (user !== undefined) {
+//             resp.status(200);
+//             resp.json(user);
+//         } else {
+//             resp.sendStatus(400);
+//         }
+//     } catch (err) {
+//         console.log(err);
+//         resp.sendStatus(500);
+//     }
+// });
 
 
 /**
@@ -71,20 +71,20 @@ userRouter.post('', async (req, resp) => {
     }
 });*/
 
-// login
-userRouter.post('/login', async (req, resp) => {
+// // login
+// userRouter.post('/login', async (req, resp) => {
 
-    try {
-        const user = await userDao.findByUsernameAndPassword(req.body.username, req.body.password);
+//     try {
+//         const user = await userDao.findByUsernameAndPassword(req.body.username, req.body.password);
 
-        if (user) {
-            req.session.user = user;
-            resp.json(user);
-        } else {
-            resp.sendStatus(401);
-        }
-    } catch (err) {
-        console.log(err);
-        resp.sendStatus(500);
-    }
-});
+//         if (user) {
+//             req.session.user = user;
+//             resp.json(user);
+//         } else {
+//             resp.sendStatus(401);
+//         }
+//     } catch (err) {
+//         console.log(err);
+//         resp.sendStatus(500);
+//     }
+// });
