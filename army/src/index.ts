@@ -63,5 +63,5 @@ app.use('/users',userRouter);
 
 
 const server = app.listen(port, () => {
-  console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
+  console.log(`App is running at http://localhost:${app.get('port')}/login/login.html in ${app.get('env')} mode`);
 });

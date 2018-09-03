@@ -4,7 +4,7 @@ function login(event) {
     let password = document.getElementById('inputPassword').value;
   
     const credentials = { username, password };
-    fetch('http://localhost:9001/users/login', {
+    fetch('/users/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -30,4 +30,9 @@ function login(event) {
       .catch(err => {
         console.log(err);
       });
+  }
+
+
+  function goRegister(){
+    window.location= 'http://localhost:9001/register/register.html';
   }

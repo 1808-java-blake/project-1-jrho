@@ -4,7 +4,7 @@ import { reimbConverter } from "../util/reimb-converter";
 import { userConverter } from "../util/user-converter";
 
 /**
- * Retreive all users from the DB along with all their movies
+ * Retreive all users from the DB along with all their remib
  */
 export async function findAll(): Promise<User[]> {
   const client = await connectionPool.connect();
@@ -12,12 +12,12 @@ export async function findAll(): Promise<User[]> {
     const resp = await client.query(
       `SELECT * FROM army.army_users`);
 
-    // extract the users and their movies from the result set
+    // extract the users and their reimb from the result set
     const users = [];
     resp.rows.forEach((user_result) => {
       const item = reimbConverter(user_result);
-      const exists = users.some( existingUser => {
-        if(user_result.user_id === existingUser.id) {
+      const exists = users.some(existingUser => {
+        if (user_result.user_id === existingUser.id) {
           item.id && existingUser.reimb.push(item);
           return true;
         }
@@ -34,84 +34,66 @@ export async function findAll(): Promise<User[]> {
   }
 }
 
-// /**
-//  * Retreive a single user by id, will also retreive all of that users movies
-//  * @param id 
-//  */
-// export async function findById(id: number): Promise<User> {
-//   const client = await connectionPool.connect();
-//   try {
-//     const resp = await client.query(
-//       `SELECT * FROM movies.app_users u
-//         LEFT JOIN movies.users_movies
-//         USING (user_id)
-//         LEFT JOIN movies.movies
-//         USING(movie_id)
-//         WHERE u.user_id = $1`, [id]);
-//         const user = userConverter(resp.rows[0]); // get the user data from first row
+/**
+ * Retreive a single user by id, will also retreive all of that users reimbursement
+ * @param id 
+ */
+export async function findById(id: number): Promise<User> {
+  const client = await connectionPool.connect();
+  try {
+    const resp = await client.query(
+      `SELECT * FROM army.army_users u
+        LEFT JOIN army.army_reimbursement
+        USING (army_userid)
+        WHERE u.army_userid = $1`, [id]);
+    const user = userConverter(resp.rows[0]); // get the user data from first row
 
-//         // get the movies from all the rows
-//         resp.rows.forEach((movie) => {
-//           movie.movie_id && user.movies.push(movieConverter(movie));
-//         })
-//         return user;
-//   } finally {
-//     client.release();
-//   }
-// }
+    // get the reimb from all the rows
+    resp.rows.forEach((reimb) => {
+      reimb.reimb_id && user.reimb.push(reimbConverter(reimb));
+    })
+    return user;
+  } finally {
+    client.release();
+  }
+}
 
-// /**
-//  * Retreive a single user by username and password, will also retreive all of that users movies
-//  * @param id 
-//  */
-// export async function findByUsernameAndPassword(username: string, password: string): Promise<User> {
-//   const client = await connectionPool.connect();
-//   try {
-//     const resp = await client.query(
-//       `SELECT * FROM movies.app_users u
-//         WHERE u.username = $1
-//         AND u.password = $2`, [username, password]);
-//         if(resp.rows.length !== 0) {
-//           return userConverter(resp.rows[0]); // get the user data from first row
-//         }
-//         return null;
-//   } finally {
-//     client.release();
-//   }
-// }
+/**
+ * Retreive a single user by username and password, will also retreive all of that users movies
+ * @param id 
+ */
+export async function findByUsernameAndPassword(username: string, password: string): Promise<User> {
+  const client = await connectionPool.connect();
+  try {
+    const resp = await client.query(
+      `SELECT * FROM army.army_users u
+        WHERE u.sol_username = $1
+        AND u.sol_password = $2`, [username, password]);
+        if(resp.rows.length !== 0) {
+          return userConverter(resp.rows[0]); // get the user data from first row
+        }
+        return null;
+  } finally {
+    client.release();
+  }
+}
 
 
-// /**
-//  * Add a new user to the DB
-//  * @param user 
-//  */
-// export async function create(user: User): Promise<number> {
-//   const client = await connectionPool.connect();
-//   try {
-//     const resp = await client.query(
-//       `INSERT INTO movies.app_users 
-//         (username, password, role)
-//         VALUES ($1, $2, 'customer') 
-//         RETURNING user_id`, [user.username, user.password]);
-//     return resp.rows[0].user_id;
-//   } finally {
-//     client.release();
-//   }
-// }
+/**
+ * Add a new user to the DB
+ * @param user 
+ */
+export async function create(user: User): Promise<number> {
+  const client = await connectionPool.connect();
+  try {
+    const resp = await client.query(
+      `INSERT INTO army.army_users
+        (sol_username, sol_password, sol_firstname,sol_lastname,sol_email,sol_roleid)
+        VALUES ($1,$2,$3,$4,$5,$6) 
+        RETURNING army_userid`, [user.username, user.password, user.firstname, user.lastname, user.email, 2]);
+    return resp.rows[0].army_userid;
+  } finally {
+    client.release();
+  }
+}
 
-// /**
-//  * Add a movie to a users list
-//  * @param movieId 
-//  * @param userId 
-//  */
-// export async function addMovieToUser(movieId: number, userId: number): Promise<any> {
-//   const client = await connectionPool.connect();
-//   try {
-//     const resp = await client.query(
-//       `INSERT INTO movies.users_movies 
-//         (user_id, movie_id)
-//         VALUES ($1, $2)`, [userId, movieId]);
-//   } finally {
-//     client.release();
-//   }
-// }
