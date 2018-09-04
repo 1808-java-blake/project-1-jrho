@@ -33,6 +33,21 @@ reimbRouter.post('',
         }
     }]);
 
+// reimbRouter.get('/:id', async (req, resp) => {
+//     const id = +req.params.id; // convert the id to a number
+//     console.log(`retrieving user with id  ${id}`);
+//     try {
+//         let reimb = await reimbDao.findById(id);
+//         if (reimb !== undefined) {
+//             resp.json(reimb);
+//         } else {
+//             resp.sendStatus(400);
+//         }
+//     } catch (err) {
+//         resp.sendStatus(500);
+//     }
+// });
+
 
 /**
  * Find reimbursement request by status
@@ -47,3 +62,20 @@ reimbRouter.get('/status/:status', async (req, resp) => {
         resp.sendStatus(500);
     }
 });
+
+/**
+ * find reimb by user
+ */
+
+reimbRouter.get('/users/:id', async (req, resp) => {
+    try{
+        const id = +req.params.id;
+        let requests = await reimbDao.findById(id);
+        resp.json(requests);
+    }
+    catch (err) {
+        console.log(err);
+        resp.sendStatus(500);
+    }
+});
+

@@ -60,10 +60,11 @@ function doSwal() {
                 });
 
             }
-            return true;
-        });
+        })
+        .then(applyReimb(event));
 
-    return false;
+
+
 
 
 
