@@ -9,7 +9,9 @@ export async function findAll(): Promise<Reimb[]> {
     const client = await connectionPool.connect();
     try {
         const resp = await client.query(
-            `SELECT * FROM army.army_reimbursement`
+            `SELECT * FROM army.army_reimbursement
+            LEFT JOIN army.army_reimbursement_type USING(reimburse_type_id)
+            LEFT JOIN army.army_reimbursement_status USING(reimburse_status_id);`
         )
         return resp.rows.map(reimbConverter);
     }
@@ -65,6 +67,39 @@ export async function findStatus(status: number): Promise<Reimb[]> {
              WHERE reimb_status_id = $1;`, [status]);
         return resp.rows.map(reimbConverter);
 
+    }
+    finally {
+        client.release();
+    }
+}
+export async function approveReimb(id: number, user) {
+    const client = await connectionPool.connect();
+    try {
+        const resp = await client.query(
+            `UPDATE army.army_reimbursement
+             SET reimburse_status_id=1,
+             reimburse_resolver =$1,
+             reimburse_resolved=$2,
+             WHERE reimburse_id = $3`,
+            [user.id, new Date().toISOString().slice(0, 19).replace('T', ' '), id]
+        );
+    }
+    finally {
+        client.release();
+    }
+}//end approve
+
+export async function denyReimb(id: number, user) {
+    const client = await connectionPool.connect();
+    try {
+        const resp = await client.query(
+            `UPDATE army_army_reimbursement
+             SET reimburse_status_id=2,
+             reimburse_resolver=$1,
+             reimburse_resolved=$2
+             WHERE reimburse_id =$3`,
+            [user.id, new Date().toISOString().slice(0, 19).replace('T', ' '), id]
+        )
     }
     finally {
         client.release();

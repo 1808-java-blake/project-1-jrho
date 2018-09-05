@@ -43,8 +43,7 @@ export async function findById(id: number): Promise<User> {
   try {
     const resp = await client.query(
       `SELECT * FROM army.army_users u
-        LEFT JOIN army.army_reimbursement
-        USING (army_userid)
+       NATURAL JOIN army.army_role
         WHERE u.army_userid = $1`, [id]);
     const user = userConverter(resp.rows[0]); // get the user data from first row
 
@@ -66,7 +65,8 @@ export async function findByUsernameAndPassword(username: string, password: stri
   const client = await connectionPool.connect();
   try {
     const resp = await client.query(
-      `SELECT * FROM army.army_users u
+       `SELECT * FROM army.army_users u
+        NATURAL JOIN army.army_role
         WHERE u.sol_username = $1
         AND u.sol_password = $2`, [username, password]);
         if(resp.rows.length !== 0) {

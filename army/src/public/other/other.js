@@ -7,14 +7,14 @@ function applyReimb(event) {
 
 
     const amount = document.getElementById('input-amount').value;
-    const desciption = document.getElementById('input-description').textContent;
+    const description = document.getElementById('input-description').value;
     const type = document.getElementById('input-type').value;
     const auth = JSON.parse(localStorage.getItem('user')).username;
     const password = JSON.parse(localStorage.getItem('user')).password;
 
     const reimb = {
         amount,
-        desciption,
+        description,
         type,
         auth,
         password

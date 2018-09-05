@@ -11,7 +11,7 @@ function showReimb(reimb){
     tbody.innerHTML +=`
     <tr>
         <th scope="row">${reimb.id}</th>
-            <td>${reimb.amount} </td>
+            <td> $${reimb.amount} </td>
             <td>${reimb.submitted.slice(0,10)}</td>
             <td>${reimb.description}</td>
             <td>${reimb.type}</td>
