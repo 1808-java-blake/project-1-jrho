@@ -44,3 +44,8 @@ function login(event) {
   function goRegister(){
     window.location= 'http://localhost:9001/register/register.html';
   }
+
+  function rememberMe(){
+    let checkBoxRem = document.getElementById("chkBoxRem");
+
+  }

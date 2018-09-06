@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="admin.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="admin.js"></script>
 </head>
 
@@ -47,11 +48,29 @@
         </div>
     </nav>
 
+    
+
+    <h2 class="h2-admin">Admin Menu</h2> 
+    <label for="admin-form">Enter Specific User ID</label>
+    <form id="admin-form" >
+        <input type="text" id="get-user-by-id" class="form-control" placeholder="Enter Specific User ID" />
+        <br/>
+        <label for="admin-select-option">Select Admin Options to View</label>
+        <select id="admin-select-option" class="custom-select" onchange="viewUsers()">
+            <option value="0" selected>ALL USERS</option>
+            <option value="1">APPROVED</option>
+            <option value="2">DENIED</option>
+            <option value="3">PENDING</option>
+        </select>
+        <br/>
+      
+    </form>
+
 
     <div class="container" id="reimb-container">
         <div class="row">
-            <table class="table table-striped table-dark col " id="reimb-table">
-                <thead>
+            <table class="table" id="reimb-table">
+                <thead class = "thead-light" >
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Amount</th>
@@ -62,6 +81,7 @@
                         <th scope="col">Resolver ID</th>
                         <th scope="col">Resolved</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Admin Options</th>
                     </tr>
                 </thead>
                 <tbody id="reimb-result">
@@ -70,20 +90,7 @@
             </table>
         </div>
 
-        <form id="admin-form" >
-            <h1> Admin menu </h1>
-            
-            <input type="text" id="get-user-by-id" class="form control" placeholder="Enter User ID" />
-            <br/>
-            <select id="admin-select-option" class="custom-select" onchange="viewUsers()">
-                <option value="0" selected>ALL USERS</option>
-                <option value="1">APPROVED</option>
-                <option value="2">DENIED</option>
-                <option value="3">PENDING</option>
-            </select>
-            <br/>
-          
-        </form>
+        
 
     </div>
 </body>

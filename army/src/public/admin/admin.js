@@ -1,3 +1,19 @@
+function getAllUsers(){
+    fetch(`../reimb`)
+    .then(resp=>resp.json())
+    .then(resp=>{
+        document.getElementById('reimb-result').innerHTML='';
+        resp.forEach(reimb=>{
+            userResult(reimb);
+        })
+    }).catch(err=>{
+        console.log(err);
+    })
+
+}
+
+
+
 function userResult(reimb){
     const tbody = document.getElementById ('reimb-result');
 
@@ -14,6 +30,7 @@ function userResult(reimb){
         str = `select onchange="getStatus(${reimb.id});`
     }
 
+    let gear =`<i class="fa fa-gear" style="font-size:36px, pointer;"></i>`;
     
     tbody.innerHTML+=
     `<tr>
@@ -21,14 +38,21 @@ function userResult(reimb){
         <td> $${reimb.amount} </td>
         <td>${reimb.submitted.slice(0,10)}</td>
         <td>${reimb.description}</td>
-         <td>${reimb.type}</td>
+        <td>${reimb.type}</td>
         <td>${reimb.author}</td>
         <td>${resolver}</td>
         <td>${reimb.resolved.slice(0,10)}</td>
         <td>${reimb.status}</td>
+        <td id="td-admin-option" onclick="showAdminMenu()">${gear}</td>
     </tr>
     `
 }//end userResult(reimb);
+
+
+
+function showAdminMenu(){
+    document.getElementById("td-admin-option").innerHTML=`hello`;
+}
 
 
 function getStatus(id){
@@ -100,16 +124,3 @@ function getUserByStatus(num){
     });
 }
 
-function getAllUsers(){
-    fetch(`../reimb`)
-    .then(resp=>resp.json())
-    .then(resp=>{
-        document.getElementById('reimb-result').innerHTML='';
-        resp.forEach(reimb=>{
-            userResult(reimb);
-        })
-    }).catch(err=>{
-        console.log(err);
-    })
-
-}

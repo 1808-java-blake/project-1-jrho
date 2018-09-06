@@ -63,8 +63,8 @@ export async function findStatus(status: number): Promise<Reimb[]> {
         const resp = await client.query(
             `SELECT * FROM army.army_reimbursement re
              LEFT JOIN army.army_reimbursement_status
-             USING(reimb_status_id)
-             WHERE reimb_status_id = $1;`, [status]);
+             USING(reimburse_status_id)
+             WHERE reimburse_status_id = $1;`, [status]);
         return resp.rows.map(reimbConverter);
 
     }
