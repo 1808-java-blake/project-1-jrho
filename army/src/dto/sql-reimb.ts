@@ -8,4 +8,6 @@ export class SqlReimb{
     reimburse_author=0;
     reimburse_status_id=0;
     reimburse_type_id=0;
+    reimburse_status_type='';
+    reimburse_type='';
 }

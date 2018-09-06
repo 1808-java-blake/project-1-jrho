@@ -8,6 +8,8 @@ function showReimb(reimb){
         resolver = reimb.resolver;
     }
 
+    
+
     tbody.innerHTML +=`
     <tr>
         <th scope="row">${reimb.id}</th>
@@ -18,7 +20,7 @@ function showReimb(reimb){
             <td>${reimb.author}</td>
             <td>${resolver}</td>
             <td>${reimb.resolved.slice(0,10)}</td>
-            <td>${reimb.type}</td>
+            <td>${reimb.status}</td>
     </tr>
     `
 

@@ -54,10 +54,9 @@ reimbRouter.post('',
  */
 reimbRouter.get('/status/:status', async (req, resp) => {
     const status = +req.params.status; // convert the id to a number
-    console.log(`retrieving requests with status:  ${status}`);
     try {
-        let requests = await reimbDao.findStatus(status);
-        resp.json(requests);
+        let reimb = await reimbDao.findStatus(status);
+        resp.json(reimb);
     } catch (err) {
         resp.sendStatus(500);
     }
@@ -77,5 +76,32 @@ reimbRouter.get('/users/:id', async (req, resp) => {
         console.log(err);
         resp.sendStatus(500);
     }
+});
+
+reimbRouter.put('/approve/:id', async (req,resp)=>{
+    try{
+        const user = req.session.user;
+        const id =+req.params.id;
+        await reimbDao.approveReimb(id,user);
+        resp.json(true);
+    }
+    catch(err){
+        console.log(err);
+        resp.sendStatus(500);
+    }
+});
+
+reimbRouter.put('/deny/:id', async(req,resp)=>{
+    try{
+        const user = req.session.user;
+        const id =+req.params.id;
+        await reimbDao.denyReimb(id,user);
+        resp.json(true);
+    }
+    catch(err){
+        console.log(err);
+        resp.sendStatus(500);
+    }
+
 });
 
