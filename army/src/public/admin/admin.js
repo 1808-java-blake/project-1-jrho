@@ -53,6 +53,7 @@ getAllUsers();
 
 function userResult(reimb) {
     const tbody = document.getElementById('reimb-result');
+    const gear = `<i class="fa fa-gear" style="font-size:36px, pointer;"></i>`;
 
     let resolver = 0;
     if (reimb.resolver === 0) {
@@ -63,31 +64,53 @@ function userResult(reimb) {
     }
 
     let str = "";
-    if (reimb.status == 3) {
+    //console.log("reimb stats = " + reimb.status_id);
+    if (reimb.status === "PENDING") {
+        //console.log("pending here");
         str = `select onchange="getStatus(${reimb.id});`
+       
+        tbody.innerHTML +=
+            `<tr>
+            <th scope="row">${reimb.id}</th>
+            <td> $${reimb.amount} </td>
+            <td>${reimb.submitted.slice(0, 10)}</td>
+            <td>${reimb.description}</td>
+            <td>${reimb.type}</td>
+            <td>${reimb.author}</td>
+            <td>${resolver}</td>
+            <td>${reimb.resolved.slice(0, 10)}</td>
+            
+            <td>${reimb.status}</td>
+            <td id="td-admin-option">${gear}
+                <div id = "insertBtn">
+                    <button class="btn btn-primary" onclick="toApprove(${reimb.id})">Approve</button>
+                    <button class="btn btn-primary" onclick="toDeny(${reimb.id})">Deny</button>
+                </div>
+                </td>
+        </tr>
+        `
     }
+    else{
+        tbody.innerHTML +=
+            `<tr>
+            <th scope="row">${reimb.id}</th>
+            <td> $${reimb.amount} </td>
+            <td>${reimb.submitted.slice(0, 10)}</td>
+            <td>${reimb.description}</td>
+            <td>${reimb.type}</td>
+            <td>${reimb.author}</td>
+            <td>${resolver}</td>
+            <td>${reimb.resolved.slice(0, 10)}</td>
+            
+            <td>${reimb.status}</td>
+            <td id="td-admin-option">${gear}SOLVED</td>
+        </tr>
+        `
 
-    let gear = `<i class="fa fa-gear" style="font-size:36px, pointer;"></i>`;
-    tbody.innerHTML +=
-        `<tr>
-        <th scope="row">${reimb.id}</th>
-        <td> $${reimb.amount} </td>
-        <td>${reimb.submitted.slice(0, 10)}</td>
-        <td>${reimb.description}</td>
-        <td>${reimb.type}</td>
-        <td>${reimb.author}</td>
-        <td>${resolver}</td>
-        <td>${reimb.resolved.slice(0, 10)}</td>
-        <td>${reimb.status}</td>
-        <td id="td-admin-option">${gear}
-            <div>
-                <button class="btn btn-primary" onclick="toApprove(${reimb.id})">Approve</button>
-                <button class="btn btn-primary" onclick="toDeny(${reimb.id})">Deny</button>
-            </div>
-            </td>
-    </tr>
-    `
+    }
 }//end userResult(reimb);
+
+
 
 // function getCollapsible(){
 //     let coll = document.getElementsByClassName('collapsible')
