@@ -52,7 +52,7 @@ reimbRouter.post('',
 /**
  * Find reimbursement request by status
  */
-reimbRouter.get('../status/:status', async (req, resp) => {
+reimbRouter.get('/status/:status', async (req, resp) => {
     const status = +req.params.status; // convert the id to a number
     try {
         let reimb = await reimbDao.findStatus(status);

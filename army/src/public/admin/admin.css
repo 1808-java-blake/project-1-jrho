@@ -8,6 +8,11 @@
 #admin-select-option{
     margin-bottom: 2em;
 }
+
+.btn-primary{
+    size: 5em;
+}
+
 .alias {cursor: alias;}
 .all-scroll {cursor: all-scroll;}
 .auto {cursor: auto;}
