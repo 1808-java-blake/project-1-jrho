@@ -89,22 +89,28 @@ function userResult(reimb) {
     `
 }//end userResult(reimb);
 
-function getCollapsible(){
-    let coll = document.getElementsByClassName("collapsible");
-    let i;
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var content = this.nextElementSibling;
-          if (content.style.display === "block") {
-            content.style.display = "none";
-          } else {
-            content.style.display = "block";
-          }
-        });
-      }
-}
-getCollapsible();
+// function getCollapsible(){
+//     let coll = document.getElementsByClassName('collapsible')
+//     console.log(coll.length);
+//     let i;
+//     for (i = 0; i < coll.length; i++) {
+//         console.log('here');
+//         coll[i].addEventListener("click", function() {
+//           console.log('got here')
+//           this.classList.toggle("active");
+//           let content = this.nextElementSibling;
+//           console.log(content);
+//           if (content.style.display === "block") {
+//             content.style.display = "none";
+//           } else {
+//             content.style.display = "block";
+//           }
+//         });
+//       }
+// }
+// document.addEventListener("DOMContentLoaded",function(event){
+//     getCollapsible();
+// });
 
 function showAdminMenu(reimb) {
     document.getElementById("td-admin-option").innerHTML = `hello`;
