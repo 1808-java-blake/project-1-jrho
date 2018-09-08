@@ -14,6 +14,43 @@ function getAllUsers() {
 getAllUsers();
 
 
+// function userResult(reimb) {
+//     const tbody = document.getElementById('reimb-result');
+
+//     let resolver = 0;
+//     if (reimb.resolver === 0) {
+//         resolver = "TBA";
+//     }
+//     else {
+//         resolver = reimb.resolver;
+//     }
+
+//     let str = "";
+//     if (reimb.status == 3) {
+//         str = `select onchange="getStatus(${reimb.id});`
+//     }
+
+//     let gear = `<i class="fa fa-gear" style="font-size:36px, pointer;"></i>`;
+//     tbody.innerHTML +=
+//         `<tr>
+//         <th scope="row">${reimb.id}</th>
+//         <td> $${reimb.amount} </td>
+//         <td>${reimb.submitted.slice(0, 10)}</td>
+//         <td>${reimb.description}</td>
+//         <td>${reimb.type}</td>
+//         <td>${reimb.author}</td>
+//         <td>${resolver}</td>
+//         <td>${reimb.resolved.slice(0, 10)}</td>
+//         <td>${reimb.status}</td>
+//         <td id="td-admin-option" class="collapsible">${gear}</td>
+//         <div class ="content">
+//             <p>admin options</p>
+//         </div>
+//     </tr>
+//     `
+// }//end userResult(reimb);
+
+
 function userResult(reimb) {
     const tbody = document.getElementById('reimb-result');
 
@@ -31,7 +68,6 @@ function userResult(reimb) {
     }
 
     let gear = `<i class="fa fa-gear" style="font-size:36px, pointer;"></i>`;
-
     tbody.innerHTML +=
         `<tr>
         <th scope="row">${reimb.id}</th>
@@ -43,15 +79,36 @@ function userResult(reimb) {
         <td>${resolver}</td>
         <td>${reimb.resolved.slice(0, 10)}</td>
         <td>${reimb.status}</td>
-        <td id="td-admin-option" onclick="showAdminMenu()">${gear}</td>
+        <td id="td-admin-option">${gear}
+            <div>
+                <button class="btn btn-primary" onclick="toApprove(${reimb.id})">Approve</button>
+                <button class="btn btn-primary" onclick="toDeny(${reimb.id})">Deny</button>
+            </div>
+            </td>
     </tr>
     `
 }//end userResult(reimb);
 
+function getCollapsible(){
+    let coll = document.getElementsByClassName("collapsible");
+    let i;
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
+}
+getCollapsible();
 
-
-function showAdminMenu() {
+function showAdminMenu(reimb) {
     document.getElementById("td-admin-option").innerHTML = `hello`;
+    userResult(reimb);
 }
 
 

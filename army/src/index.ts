@@ -48,7 +48,7 @@ app.use(
 // app.use((req,resp,next)=>{
   
 //   resp.header("Access-Control-Allow-Origin", "*");
-//   resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   // resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 // })  
 
 // use the body parser to convert request json
